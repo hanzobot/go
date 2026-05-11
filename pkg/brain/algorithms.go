@@ -7,7 +7,6 @@
 package brain
 
 import (
-	"crypto/sha256"
 	"errors"
 	"fmt"
 	"math"
@@ -18,6 +17,8 @@ import (
 	"time"
 	"unicode"
 	"unicode/utf8"
+
+	"lukechampine.com/blake3"
 )
 
 // ── Fusion ───────────────────────────────────────────────────────────
@@ -1000,6 +1001,16 @@ func ContentRange(r RangeRequest, total int64) string {
 const base58Alphabet = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz"
 const versionV1 byte = 0x01
 
+// blake3Sum32 returns the 32-byte BLAKE3 digest. The wallet-style address
+// is content-addressable; every brain runtime hashes with BLAKE3 so the
+// output is byte-equivalent across TS / Python / Go / Rust / C++.
+func blake3Sum32(data []byte) [32]byte {
+	var out [32]byte
+	h := blake3.Sum256(data)
+	copy(out[:], h[:])
+	return out
+}
+
 // EncodeAddress renders a 32-byte public key as a base58check address.
 func EncodeAddress(publicKey []byte, prefix string) (string, error) {
 	if len(publicKey) != 32 {
@@ -1008,9 +1019,9 @@ func EncodeAddress(publicKey []byte, prefix string) (string, error) {
 	if prefix == "" {
 		prefix = "hanzo"
 	}
-	h := sha256.Sum256(publicKey) // sha256 stand-in for blake3 — kept consistent within the Go runtime
+	h := blake3Sum32(publicKey)
 	versioned := append([]byte{versionV1}, h[:20]...)
-	cs := sha256.Sum256(versioned)
+	cs := blake3Sum32(versioned)
 	payload := append(versioned, cs[:4]...)
 	return prefix + ":" + base58Encode(payload), nil
 }
@@ -1036,7 +1047,7 @@ func DecodeAddress(addr string) (DecodedAddress, error) {
 	var hash [20]byte
 	copy(hash[:], decoded[1:21])
 	checksum := decoded[21:25]
-	expected := sha256.Sum256(decoded[:21])
+	expected := blake3Sum32(decoded[:21])
 	for i := 0; i < 4; i++ {
 		if checksum[i] != expected[i] {
 			return DecodedAddress{}, errors.New("address: bad checksum")
