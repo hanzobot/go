@@ -1,0 +1,19 @@
+# Go
+/hanzo-bot
+*.test
+*.prof
+coverage.out
+coverage.html
+
+# Local brain artifacts (do not commit a real user's data)
+.hanzo/
+brain.db
+brain.db-*
+
+# IDE
+.idea/
+.vscode/
+*.swp
+
+# OS
+.DS_Store
