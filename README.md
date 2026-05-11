@@ -7,6 +7,13 @@ Same contract as the TS [`hanzoai/bot`](https://github.com/hanzoai/bot)
 [`hanzoai/bot-core`](https://github.com/hanzoai/bot-core). A brain.db
 written by the TS bot is read by this binary and vice versa.
 
+Pure-CPU algorithm port (fusion, rerank, FTS, MRL, eval, spatial,
+captions, graph maintenance, slug + runtime config) lives at
+`pkg/brain/algorithms.go` and mirrors the TS / Python / Rust runtimes
+hosted at [`hanzoai/brain`](https://github.com/hanzoai/brain). Byte-
+equivalent outputs where the algorithm is deterministic; same test
+corpus passes in all four ports.
+
 ## Install
 
 ```bash
@@ -74,10 +81,14 @@ follow-up commits. Wire format will be ZAP.
 go test ./...
 ```
 
-20 tests covering slugify, all six edge types, code-fence stripping,
-dedup, bare slug refs, reconcile add/remove, end-to-end SQLite store
-(upsert/get pages, edges roundtrip, fact recall, hybrid search), and
-recipe load.
+58 tests in `pkg/brain` covering the full algorithm port (fusion, rerank,
+FTS, embed registry, MRL, temporal, captions, tokenizer, eval, spatial,
+HTTP range, wallet address, graph maintenance, slug parsing, runtime
+config, link classification) plus graph-links (slugify, all six edge
+types, code-fence stripping, dedup, bare slug refs, reconcile
+add/remove) and the end-to-end SQLite store (upsert/get pages, edges
+roundtrip, fact recall, hybrid search). Plus recipe load in
+`pkg/recipe`.
 
 ## License
 
