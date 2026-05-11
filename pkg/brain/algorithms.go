@@ -18,7 +18,7 @@ import (
 	"unicode"
 	"unicode/utf8"
 
-	"lukechampine.com/blake3"
+	"github.com/luxfi/crypto/blake3"
 )
 
 // ── Fusion ───────────────────────────────────────────────────────────
@@ -1004,11 +1004,9 @@ const versionV1 byte = 0x01
 // blake3Sum32 returns the 32-byte BLAKE3 digest. The wallet-style address
 // is content-addressable; every brain runtime hashes with BLAKE3 so the
 // output is byte-equivalent across TS / Python / Go / Rust / C++.
+// Backed by github.com/luxfi/crypto/blake3 — the canonical Lux crypto stack.
 func blake3Sum32(data []byte) [32]byte {
-	var out [32]byte
-	h := blake3.Sum256(data)
-	copy(out[:], h[:])
-	return out
+	return blake3.Hash(data)
 }
 
 // EncodeAddress renders a 32-byte public key as a base58check address.
