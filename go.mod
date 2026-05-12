@@ -1,4 +1,4 @@
-module github.com/hanzoai/bot-go
+module github.com/hanzobot/go
 
 go 1.26.1
 

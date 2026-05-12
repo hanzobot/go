@@ -22,8 +22,8 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/hanzoai/bot-go/pkg/brain"
-	"github.com/hanzoai/bot-go/pkg/recipe"
+	"github.com/hanzobot/go/pkg/brain"
+	"github.com/hanzobot/go/pkg/recipe"
 )
 
 func main() {
