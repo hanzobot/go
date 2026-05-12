@@ -3,7 +3,7 @@
 // Mirrors @hanzo/bot-memory and hanzo_memory.algorithms. Same surfaces,
 // same inputs, byte-equivalent outputs where the algorithm is deterministic.
 //
-// See hanzoai/bot-core/spec.md for the cross-runtime contract.
+// See hanzobot/core/spec.md for the cross-runtime contract.
 package brain
 
 import (
