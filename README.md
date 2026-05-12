@@ -4,7 +4,7 @@
 
 Same contract as the TS [`hanzoai/bot`](https://github.com/hanzoai/bot)
 (OpenClaw fork), implementing the spec at
-[`hanzoai/bot-core`](https://github.com/hanzoai/bot-core). A brain.db
+[`hanzobot/core`](https://github.com/hanzobot/core). A brain.db
 written by the TS bot is read by this binary and vice versa.
 
 Pure-CPU algorithm port (fusion, rerank, FTS, MRL, eval, spatial,
@@ -17,7 +17,7 @@ corpus passes in all four ports.
 ## Install
 
 ```bash
-go install github.com/hanzoai/bot-go/cmd/hanzo-bot@latest
+go install github.com/hanzobot/go/cmd/hanzo-bot@latest
 ```
 
 Pure Go, no cgo (modernc.org/sqlite). Builds anywhere — `GOOS=linux`,
@@ -52,7 +52,7 @@ cmd/
 ```go
 import (
     "context"
-    "github.com/hanzoai/bot-go/pkg/brain"
+    "github.com/hanzobot/go/pkg/brain"
 )
 
 func newBrain(ctx context.Context) (brain.BrainStore, error) {
